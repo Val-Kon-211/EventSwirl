@@ -1,0 +1,45 @@
+﻿.event-section {
+    box-sizing: content-box;
+    position: relative;
+    padding: 150px 38%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #f2f2f2;
+}
+
+    .event-section h3 {
+        margin-bottom: 30px;
+    }
+
+    .event-section label {
+        margin: 10px 0px;
+    }
+
+    .event-section button {
+        margin: 40px 0px;
+        background-color: #9f50bf;
+        border-color: #9f50bf;
+        color: #f2f2f2;
+        border-radius: 5px;
+        border: none;
+        padding: 10px 15px;
+    }
+
+        .event-section button:hover {
+            background-color: #862eab;
+            border-color: #862eab;
+        }
+
+.event-item {
+    min-width: 200px;
+}
+
+    .event-item label {
+        display: flex;
+        align-items: start;
+    }
+
+    .event-item input {
+        width: 100%;
+    }

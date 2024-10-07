@@ -1,0 +1,45 @@
+﻿.registrate-section {
+    box-sizing: content-box;
+    position: relative;
+    padding: 150px 38%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #f2f2f2;
+}
+
+    .registrate-section h3{
+        margin-bottom: 30px;
+    }
+
+    .registrate-section label {
+        margin: 10px 0px;
+    }
+
+    .registrate-section button {
+        margin: 40px 0px;
+        background-color: #9f50bf;
+        border-color: #9f50bf;
+        color: #f2f2f2;
+        border-radius: 5px;
+        border: none;
+        padding: 10px 15px;
+    }
+
+        .registrate-section button:hover {
+            background-color: #862eab;
+            border-color: #862eab;
+        }
+
+.registrate-item {
+    min-width: 200px;
+}
+
+.registrate-item label {
+    display: flex;
+    align-items: start;
+}
+
+.registrate-item input{
+    width: 100%;
+}

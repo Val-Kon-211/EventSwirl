@@ -1,0 +1,51 @@
+﻿@page "/registrate"
+@inject HttpClient Http
+
+<div class="registrate-section">
+    <form method="post" @onsubmit="Submit">
+        <h3>Регистрация</h3>
+        <div class="registrate-item">
+            <label>Логин</label>
+            <input type="text" @bind-value="@Model.Login" />
+        </div>
+        <div class="registrate-item">
+            <label>Пароль</label>
+            <input type="text" @bind-value="@Model.Password" />
+        </div>
+        <div class="registrate-item">
+            <label>Имя</label>
+            <input type="text" @bind-value="@Model.FirstName" />
+        </div>
+        <div class="registrate-item">
+            <label>Фамилия</label>
+            <input type="text" @bind-value="@Model.LastName" />
+        </div>
+        <div class="registrate-item">
+            <label>Возраст</label>
+            <input 
+                type="date"
+                min="@DateTime.Now.AddYears(-100).ToShortDateString()"
+                max="@DateTime.Now.ToShortDateString()" @bind-value="@Model.DateOfBirth" />
+        </div>
+        <div class="registrate-item">
+            <label>Город</label>
+            <input type="text" @bind-value="@Model.City" />
+        </div>
+        <div class="registrate-item">
+            <label>Email</label>
+            <input type="email" @bind-value="@Model.Email" />
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</div>
+
+@code {
+    public User? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private async void Submit()
+    {
+        var response = await Http.PostAsJsonAsync<User>("api/user/create", Model).ConfigureAwait(false);
+    }
+}

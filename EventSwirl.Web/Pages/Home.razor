@@ -1,0 +1,74 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>EventSwirl</PageTitle>
+
+<div class="welcome-section">
+    <div class="welcome-items">
+        <h1>Добро пожаловать на EventSwirl!</h1>
+        <h5>Погрузитесь в водоворот событий.</h5>
+        <form class="welcome-search">
+            <input type="search" placeholder="Найди своё событие..." aria-label="Поиск">
+        </form>
+    </div>
+</div>
+
+<div class="content-container">
+    <div class="welcome-events-list-title">
+        <h3>Ближайшие события</h3>
+    </div>
+    <div class="events-list">
+        <div class="row">
+            @if (@Events == null || @Events.Count() == 0)
+            {
+                <p>Пока событий нет :(</p>
+            }
+            else
+            {
+                foreach (var eventItem in @Events)
+                {
+                    <div class="card-container col-xl-4">
+                        <div class="card">
+                            <img class="card-img-top" src="https://skitguys.com/media/images/video/Confetti_Pink_Still_Shift-HD.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@eventItem.Name</h5>
+                                <p class="small text-muted">@((int)eventItem.AgeLimitation)+</p>
+                                <div class="event-info">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="event-info-text">Дата</span><span>@eventItem.StartDateTime.ToShortDateString()</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="event-info-text">Время</span><span>@eventItem.StartDateTime.ToShortTimeString()</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="event-info-text">Место</span><span>@eventItem.Address</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+@code{
+    public EventSwirl.Web.Models.Event[] Events { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var e = new EventSwirl.Web.Models.Event()
+            {
+                Id = 0,
+                Name = "Super",
+                StartDateTime = DateTime.Now.AddDays(-20),
+                Address = "ул. им. Враского, 5",
+                AgeLimitation = AgeLimitation.Teens
+            };
+
+        Events = new EventSwirl.Web.Models.Event[] { e, e, e, e, e, e, e, e };
+        //Events = await Http.GetFromJsonAsync<Event[]>("Event/events").ConfigureAwait(false);
+    }
+}

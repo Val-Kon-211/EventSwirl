@@ -1,0 +1,121 @@
+﻿@page "/users"
+@inject HttpClient Http
+
+<div class="content-container">
+    <div class="user-profile-main-info rounded-top d-flex flex-row">
+        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+            <img src="https://sun9-59.userapi.com/s/v1/ig2/X6lYWt8-F605DYLbbgd_QZ2YcG4V3opUGTjZUaPAcEzmGAXiNbTStcFNiAToPYkWkuoAUqMOfSMdiEJGUBvGe3Ea.jpg?size=1229x1229&quality=96&crop=5,0,1229,1229&ava=1"
+                 alt="profile image" class="img-fluid img-thumbnail mt-4 mb-2">
+            <button type="button">
+                Редактировать
+            </button>
+        </div>
+        <div class="ms-3" style="margin-top: 130px;">
+            <h5>@User.FirstName @User.LastName</h5>
+            <p>#@User.Login</p>
+        </div>
+    </div>
+    <div class="user-profile-info p-4 text-black bg-body-tertiary">
+        <div class="d-flex justify-content-end text-center py-1 text-body">
+            <div>
+                <p class="small text-muted mb-0">Город</p>
+                <p class="mb-1 h6">@User.City</p>
+            </div>
+            <div class="px-3">
+                <p class="small text-muted mb-0">Email</p>
+                <p class="mb-1 h6">@User.Email</p>
+            </div>
+            <div>
+                <p class="small text-muted mb-0">Возраст</p>
+                <p class="mb-1 h6">@(DateTime.Now.Year - @User.DateOfBirth.Year)</p>
+            </div>
+        </div>
+    </div>
+    <div class="profile-events-list">
+        <div class="profile-events-list-title">
+            <h3>Предстоящие события</h3>
+        </div>
+        <div class="row">
+        @if (@UserEvents == null || @UserEvents.Count() == 0)
+        {
+            <p>У Вас пока нет предстоящих событий :(</p>
+        }
+        else
+        {
+            foreach (var userEvent in @UserEvents)
+            {
+                <div class="card-container col-xl-4">
+                    <div class="card">
+                        <img class="card-img-top" src="https://skitguys.com/media/images/video/Confetti_Pink_Still_Shift-HD.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@userEvent.Name</h5>
+                            <p class="small text-muted">@((int)userEvent.AgeLimitation)+</p>
+                            <div class="event-info">
+                                <div class="d-flex justify-content-between">
+                                    <span class="event-info-text">Дата</span><span>@userEvent.StartDateTime.ToShortDateString()</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="event-info-text">Время</span><span>@userEvent.StartDateTime.ToShortTimeString()</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="event-info-text">Место</span><span>@userEvent.Address</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    public User? User { get; set; }
+
+    public Event[] UserEvents { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // var userResponse = await Http.GetFromJsonAsync<User>("api/user/get/id").ConfigureAwait(false);
+        var userResponse = new User() 
+        { 
+            Id = 0, 
+            FirstName = "Miki", 
+            LastName = "Jonson", 
+            Login = "mikijonson",
+            City = "Саратов",
+            DateOfBirth = DateTime.Now,
+            Email = "mikijonson@gmail.com"
+        };
+
+        if (userResponse is not null)
+        {
+            Id = userResponse.Id.ToString();
+            User = userResponse;
+
+            var UserE = new Event()
+                {
+                    Id = 0,
+                    Name = "Super",
+                    StartDateTime = DateTime.Now.AddDays(-20),
+                    Address = "ул. им. Враского, 5",
+                    AgeLimitation = AgeLimitation.Teens
+                };
+
+            UserEvents = new Event[] { UserE };
+
+            //UserEvents = await Http.GetFromJsonAsync<Event[]>("api/user/get/user/{id}").ConfigureAwait(false);
+        }
+        else
+        {
+            Id = "0";
+            User = new User();
+        }        
+    }
+
+
+}

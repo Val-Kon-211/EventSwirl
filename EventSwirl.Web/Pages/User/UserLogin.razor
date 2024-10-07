@@ -1,0 +1,36 @@
+﻿@page "/login";
+@inject HttpClient Http
+
+<div class="login-section">
+    <form method="post" @onsubmit="Submit">
+        <h3>Вход в систему</h3>
+        <div class="login-item">
+            <label>Логин</label>
+            <input @bind-value="@Login" type="text">
+        </div>
+        <div class="login-item">
+            <label>Пароль</label>
+            <input @bind-value="@Password" type="password">
+        </div>
+        <button type="submit">Войти</button>
+    </form>
+</div>
+
+@code {
+    public string Login { get; set; }
+
+    public string Password { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Login = "";
+        Password = "";
+    }
+
+    private async void Submit()
+    {
+        var response = await Http.PostAsJsonAsync("api/user/login", new { login = Login, password = Password }).ConfigureAwait(false);
+
+
+    }
+}

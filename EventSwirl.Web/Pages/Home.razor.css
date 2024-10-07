@@ -1,0 +1,56 @@
+﻿.welcome-section {
+    box-sizing: content-box;
+    height: 200px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://gagaru.club/uploads/posts/2023-02/1676104149_gagaru-club-p-bolshoi-i-yarkii-kontsert-krasivo-66.jpg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 150px 80px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome-items {
+    display: inline-block;
+    color: #f2f2f2;
+}
+
+.welcome-items h1, h5{
+    margin: 10px 0px;
+}
+
+.welcome-items .welcome-search {
+    margin-top: 40px;
+}
+
+.welcome-search input {
+    width: 100%;
+    padding: 0px 10px;
+}
+
+.card-deck {
+    display: flex;
+    align-content: center;
+}
+
+.card:hover {
+    box-shadow: 0 6px 10px 0 rgba(155, 89, 182, 0.3), 0 8px 22px 0 rgba(155, 89, 182, 0.20);
+}
+
+.card-container {
+    margin: 1% 0%;
+    color: #000000;
+}
+
+.event-info {
+    font-size: 14px;
+}
+
+.event-info-text {
+    color: dimgray;
+}
+
+.welcome-events-list-title h3{
+    margin: 0 0 30px 0;
+}

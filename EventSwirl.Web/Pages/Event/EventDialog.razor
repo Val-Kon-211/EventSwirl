@@ -1,0 +1,72 @@
+﻿@page "/create-event"
+@inject HttpClient Http
+
+<h3>EventDialog</h3>
+
+<div class="event-section">
+    <form method="post" @onsubmit="Submit">
+        <h3>Событие</h3>
+        <div class="event-item">
+            <label>Название</label>
+            <input type="text" @bind-value="@Model.Name" />
+        </div>
+        <div class="event-item">
+            <label>Начало</label>
+            <input type="datetime" @bind-value="@Model.StartDateTime" />
+        </div>
+        <div class="event-item">
+            <label>Город</label>
+            <input type="text" @bind-value="@Model.City" />
+        </div>
+        <div class="event-item">
+            <label>Адрес</label>
+            <input type="text" @bind-value="@Model.Address" />
+        </div>
+        <div class="event-item">
+            <fieldset>
+                <label>Возрастное ограничение</label>
+                <div>
+                    <input type="radio" name="agelimitation" value="NoLimitation"
+                    @onchange="@(() => Model.AgeLimitation = AgeLimitation.NoLimitation)" />
+                    <label for="NoLimitation">0+</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="agelimitation" value="Kids"
+                        @onchange="@(() => Model.AgeLimitation = AgeLimitation.Kids)" />
+                    <label for="Kids">6+</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="agelimitation" value="Teens"
+                        @onchange="@(() => Model.AgeLimitation = AgeLimitation.Teens)" />
+                    <label for="Teens">12+</label>
+                </div>
+                
+                <div>
+                    <input type="radio" name="agelimitation" value="PreAdult"
+                        @onchange="@(() => Model.AgeLimitation = AgeLimitation.PreAdult)" />
+                    <label for="PreAdult">16+</label>
+                </div>
+                
+                <div>
+                    <input type="radio" name="agelimitation" value="Adult"
+                        @onchange="@(() => Model.AgeLimitation = AgeLimitation.Adult)" />
+                    <label for="Adult">18+</label>
+                </div>
+            </fieldset>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+@code {
+    public Event? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private async void Submit()
+    {
+        //var response = await Http.PostAsJsonAsync<User>("api/event/create", Model).ConfigureAwait(false);
+    }
+}

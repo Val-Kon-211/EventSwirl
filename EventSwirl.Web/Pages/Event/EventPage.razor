@@ -1,0 +1,41 @@
+﻿@page "/event/{Id:int}"
+
+<div class="content-container">
+    <div class="event-content-section">
+        <h3>@Event.Name</h3>
+        <p>@((int)Event.AgeLimitation)+</p>
+        <p>@Event.City, @Event.Address</p>
+        <p>@Event.Description</p>
+        <button type="submit">Я пойду!</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    protected Event Event { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Event = new Event
+            {
+                Id = 0,
+                Name = "Super",
+                Description = "lalalal allalalal allalallalalla alla allalalal alallalaalal" +
+                    "akkakakakak kakakakak akakkaka akakakka akakkakak akakkakaka akkakakakakkak" +
+                    "aka ak aka akjfdnsgkjnkj",
+                StartDateTime = DateTime.Now.AddDays(-20),
+                City = "Саратов",
+                Address = "ул. им. Враского, 5",
+                AgeLimitation = AgeLimitation.Teens
+            };
+
+        Id = Event.Id;
+    }
+
+    private void Submit()
+    {
+        
+    }
+}
