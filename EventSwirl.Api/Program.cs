@@ -1,15 +1,13 @@
-﻿using EventSwirl.Api;
-using EventSwirl.Application.Data.Mapping;
+﻿using EventSwirl.Application.Data.Mapping;
 using EventSwirl.Application.Services;
 using EventSwirl.Application.Services.Interfaces;
 using EventSwirl.DataAccess;
+using EventSwirl.DataAccess.Handlers;
 using EventSwirl.DataAccess.Interfaces;
+using EwentSwirl.RabbitMQ;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Authentication.Certificate;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 class Program
 {
@@ -38,38 +36,30 @@ class Program
                 .ScanIn(typeof(DataContext).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
-        // Add JWT
-
-        var jwtOptions = builder.Configuration
-            .GetSection("JwtOptions")
-            .Get<JwtOptions>();
-
-        builder.Services.AddSingleton(jwtOptions);
-
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(opts =>
-            {
-                //convert the string signing key to byte array
-                byte[] signingKeyBytes = Encoding.UTF8.GetBytes(jwtOptions.SigningKey);
-
-                opts.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
-                };
-            });
-
-        builder.Services.AddAuthorization();
-
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        builder.Services.AddScoped<ICommandHandler, CreateEventCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, CreateUserCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, DeleteEventByIdCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, DeleteUserCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, GetAllEventsCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, GetEventByIdCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, GetEventsByUserIdCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, GetUserByIdCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, GetUserByLoginCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, UpdateEventCommandHandler>();
+        builder.Services.AddScoped<ICommandHandler, UpdateUserCommandHandler>();
+
+        builder.Services.AddScoped<IProducer, Producer>();
+
+        builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+
+
         builder.Services.AddScoped<IEventService, EventService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<ISecurityService, SecurityService>();
+
+        builder.Services.AddScoped<CommandDispatcher>();
 
         var app = builder.Build();
 
@@ -84,6 +74,12 @@ class Program
                 runner.ListMigrations();
                 runner.MigrateUp();
             }
+        }
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var dispatcher = scope.ServiceProvider.GetRequiredService<CommandDispatcher>();
+            dispatcher.StartListening();
         }
 
         app.UseSwagger();

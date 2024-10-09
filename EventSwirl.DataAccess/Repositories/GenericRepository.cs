@@ -48,6 +48,9 @@ namespace EventSwirl.DataAccess.Repositories
 
         public async Task Insert(TEntity entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
             entity.CreatedAt = DateTime.Now;
             entity.UpdatedAt = DateTime.Now;
 

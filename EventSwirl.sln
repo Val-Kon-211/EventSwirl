@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSwirl.Application", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSwirl.Web", "EventSwirl.Web\EventSwirl.Web.csproj", "{9E1826E5-B47F-4732-9275-274699C7BC77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwentSwirl.RabbitMQ", "EwentSwirl.RabbitMQ\EwentSwirl.RabbitMQ.csproj", "{863F1399-A841-478D-91BE-7CC91FC0D77B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9E1826E5-B47F-4732-9275-274699C7BC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E1826E5-B47F-4732-9275-274699C7BC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E1826E5-B47F-4732-9275-274699C7BC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863F1399-A841-478D-91BE-7CC91FC0D77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863F1399-A841-478D-91BE-7CC91FC0D77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863F1399-A841-478D-91BE-7CC91FC0D77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863F1399-A841-478D-91BE-7CC91FC0D77B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

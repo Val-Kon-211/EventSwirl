@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventSwirl.Application\EventSwirl.Application.csproj" />
+    <ProjectReference Include="..\EventSwirl.DataAccess\EventSwirl.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
